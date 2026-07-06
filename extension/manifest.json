@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
   "name": "闲聊花 Talking Flower",
-  "version": "1.0.0",
-  "description": "一朵常驻浏览器的闲聊小花:自动闲聊、整点报时、自定义计划提醒。粉丝自制,台词原创,与任天堂无关。",
-  "permissions": ["alarms", "storage", "notifications", "tts"],
+  "version": "1.1.0",
+  "description": "一朵常驻浏览器的闲聊小花:自动闲聊、整点报时、自定义计划提醒、自定义台词,可选可爱的在线语音。粉丝自制,台词原创,与任天堂无关。",
+  "permissions": ["alarms", "storage", "notifications", "tts", "offscreen"],
+  "host_permissions": ["https://api.elevenlabs.io/*"],
   "background": {
     "service_worker": "background.js"
   },

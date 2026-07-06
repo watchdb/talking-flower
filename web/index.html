@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>闲聊花 Web · Talking Flower</title>
-  <meta name="description" content="网页版闲聊花:一朵会自动闲聊的小花,支持整点报时和自定义计划提醒。粉丝自制,台词原创。" />
+  <meta name="description" content="网页版闲聊花:一朵会自动闲聊的小花,支持整点报时、自定义计划提醒、自定义台词,可用可爱的在线语音。粉丝自制,台词原创。" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌼%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -79,9 +79,32 @@
         </select>
       </div>
 
+      <hr />
+
       <div class="row">
-        <label for="optVoice" data-i18n="voice">声音</label>
+        <label for="optEngine" data-i18n="voiceEngine">语音引擎</label>
+        <select id="optEngine">
+          <option value="browser" data-i18n="engineBrowser">浏览器(免费)</option>
+          <option value="elevenlabs" data-i18n="engineCloud">在线 · ElevenLabs(可爱,需 Key)</option>
+        </select>
+      </div>
+
+      <div class="row" id="voiceRow">
+        <label for="optVoice" data-i18n="browserVoice">声音(浏览器)</label>
         <select id="optVoice"></select>
+      </div>
+
+      <div class="cloud-fields hidden" id="cloudFields">
+        <div class="row">
+          <label for="optElevenKey" data-i18n="apiKey">API Key</label>
+          <input type="password" id="optElevenKey" placeholder="xi-..." autocomplete="off" />
+        </div>
+        <div class="row">
+          <label for="optElevenVoice" data-i18n="voiceId">语音 ID</label>
+          <input type="text" id="optElevenVoice" placeholder="ElevenLabs Voice ID" autocomplete="off" />
+        </div>
+        <p class="cloud-note" data-i18n="cloudNote">在 elevenlabs.io 免费注册取 API Key,再从 Voice Library 选一个可爱音色复制它的 Voice ID。Key 只保存在你本地浏览器,不会上传别处。</p>
+        <p class="engine-status" id="engineStatus"></p>
       </div>
 
       <div class="row sliders">
@@ -89,7 +112,13 @@
         <input type="range" id="optRate" min="0.6" max="1.6" step="0.05" value="1.05" />
         <label data-i18n="pitch">音调</label>
         <input type="range" id="optPitch" min="0.6" max="2" step="0.05" value="1.35" />
-        <button class="btn" id="testVoiceBtn" data-i18n="testVoice">试听</button>
+      </div>
+      <div class="row presets">
+        <span class="preset-label" data-i18n="presetLabel">预设</span>
+        <button class="btn btn-sm" id="presetCute" data-i18n="presetCute">🎀 可爱</button>
+        <button class="btn btn-sm" id="presetNormal" data-i18n="presetNormal">标准</button>
+        <button class="btn btn-sm" id="presetCalm" data-i18n="presetCalm">沉稳</button>
+        <button class="btn btn-sm" id="testVoiceBtn" data-i18n="testVoice">试听</button>
       </div>
 
       <hr />
@@ -135,6 +164,28 @@
       </div>
     </section>
 
+    <!-- 自定义文案 -->
+    <section class="card">
+      <h2 data-i18n="customTitle">自定义文案</h2>
+      <p class="row-desc" data-i18n="customDesc">添加你自己的闲聊台词,会和内置台词一起被随机说出来(按当前语言分别管理)。</p>
+
+      <div class="row">
+        <div>
+          <label class="switch-label" data-i18n="useBuiltin">同时使用内置台词</label>
+          <p class="row-desc" data-i18n="useBuiltinDesc">关掉后,小花只说你写的台词</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="optUseBuiltin" checked /><span class="slider"></span></label>
+      </div>
+
+      <form id="lineForm" class="plan-form">
+        <input type="text" id="lineText" maxlength="120" required data-i18n-placeholder="linePlaceholder" placeholder="写一句小花会说的话…" />
+        <button type="submit" class="btn btn-primary" data-i18n="addLine">添加</button>
+      </form>
+
+      <ul id="lineList" class="plan-list"></ul>
+      <p class="empty-note hidden" id="lineEmpty" data-i18n="customEmpty">还没有自定义台词,添加一条试试吧</p>
+    </section>
+
     <!-- 计划提醒 -->
     <section class="card">
       <h2 data-i18n="plansTitle">计划提醒</h2>
@@ -156,7 +207,7 @@
   </main>
 
   <footer class="site-footer">
-    <p data-i18n="disclaimer">粉丝自制网页玩具,与任天堂无关;台词均为原创,语音来自浏览器自带 TTS。</p>
+    <p data-i18n="disclaimer">粉丝自制网页玩具,与任天堂无关;台词均为原创,语音来自浏览器自带 TTS 或你自选的在线引擎。</p>
   </footer>
 
   <script src="lines.js"></script>

@@ -75,10 +75,52 @@
         <option value="ja">日本語</option>
       </select>
     </div>
+  </section>
+
+  <section class="panel">
+    <h2 data-i18n="voiceTitle">语音</h2>
     <div class="row">
-      <label data-i18n="voice">声音</label>
+      <label data-i18n="voiceEngine">语音引擎</label>
+      <select id="optEngine">
+        <option value="browser" data-i18n="engineBrowser">浏览器(免费)</option>
+        <option value="elevenlabs" data-i18n="engineCloud">在线·ElevenLabs</option>
+      </select>
+    </div>
+    <div class="row" id="voiceRow">
+      <label data-i18n="browserVoice">声音</label>
       <select id="optVoice"></select>
     </div>
+    <div class="cloud-fields hidden" id="cloudFields">
+      <div class="row"><label data-i18n="apiKey">API Key</label><input type="password" id="optElevenKey" placeholder="xi-..." autocomplete="off" /></div>
+      <div class="row"><label data-i18n="voiceId">语音 ID</label><input type="text" id="optElevenVoice" placeholder="Voice ID" autocomplete="off" /></div>
+      <p class="cloud-note" data-i18n="cloudNote">在 elevenlabs.io 免费注册取 Key,从 Voice Library 选可爱音色复制 Voice ID。Key 只存本地。</p>
+    </div>
+    <div class="row sliders">
+      <label data-i18n="rate">语速</label>
+      <input type="range" id="optRate" min="0.6" max="1.6" step="0.05" />
+      <label data-i18n="pitch">音调</label>
+      <input type="range" id="optPitch" min="0.6" max="2" step="0.05" />
+    </div>
+    <div class="row presets">
+      <button class="btn btn-ghost" id="presetCute" data-i18n="presetCute">🎀 可爱</button>
+      <button class="btn btn-ghost" id="presetNormal" data-i18n="presetNormal">标准</button>
+      <button class="btn btn-ghost" id="presetCalm" data-i18n="presetCalm">沉稳</button>
+      <button class="btn btn-ghost" id="testVoiceBtn" data-i18n="testVoice">试听</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 data-i18n="customTitle">自定义文案</h2>
+    <div class="row">
+      <label data-i18n="useBuiltin">同时用内置台词</label>
+      <label class="switch"><input type="checkbox" id="optUseBuiltin" /><span class="slider"></span></label>
+    </div>
+    <form id="lineForm" class="plan-form">
+      <input type="text" id="lineText" maxlength="120" required placeholder="写一句小花会说的话…" data-i18n-placeholder="linePlaceholder" />
+      <button type="submit" class="btn" data-i18n="addLine">添加</button>
+    </form>
+    <ul id="lineList" class="plan-list"></ul>
+    <p class="empty-note hidden" id="lineEmpty" data-i18n="customEmpty">还没有自定义台词</p>
   </section>
 
   <section class="panel">
@@ -96,7 +138,7 @@
     <p class="empty-note hidden" id="planEmpty" data-i18n="plansEmpty">还没有计划,添加一条试试吧</p>
   </section>
 
-  <footer data-i18n="disclaimer">粉丝自制,与任天堂无关;台词原创,语音来自系统 TTS。</footer>
+  <footer data-i18n="disclaimer">粉丝自制,与任天堂无关;台词原创,语音来自系统 TTS 或你自选的在线引擎。</footer>
 
   <script src="lines.js"></script>
   <script src="popup.js"></script>

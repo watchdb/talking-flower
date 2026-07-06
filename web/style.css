@@ -211,6 +211,25 @@ hr { border: none; border-top: 1px solid var(--line); margin: 6px 0; }
 .btn:active { transform: scale(.96); }
 .btn-primary { background: var(--accent); border-color: var(--accent-dark); color: #fff; }
 .btn-big { font-size: 1.15rem; padding: 14px 28px; border-radius: 16px; }
+.btn-sm { padding: 5px 12px; border-radius: 10px; font-size: .85rem; border-width: 1.5px; }
+
+/* ---------- 语音引擎 / 预设 ---------- */
+.cloud-fields {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+  margin: 4px 0 6px;
+}
+.cloud-fields .row { border-bottom: none; padding: 6px 0; }
+.cloud-fields input[type="text"],
+.cloud-fields input[type="password"] { width: 58%; }
+.cloud-note { font-size: .78rem; color: var(--muted); margin: 4px 0 0; }
+.engine-status { font-size: .82rem; margin: 6px 0 0; min-height: 1em; }
+.engine-status.ok { color: #4c7a3d; }
+.engine-status.err { color: #d9534f; }
+
+.row.presets { flex-wrap: wrap; gap: 8px; justify-content: flex-start; padding-top: 4px; }
+.preset-label { color: var(--muted); font-size: .85rem; }
+#optVoice { max-width: 55%; }
 
 /* ---------- 计划 ---------- */
 .plan-form {
