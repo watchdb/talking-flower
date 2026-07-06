@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "title": "Talking Flower Web · Chatty Companion & Hourly Chime",
+    "description": "A free web talking flower that chatters on its own, chimes every hour, and reads out your reminders aloud. Open in any browser — no install, works on mobile."
+  },
+  "brand": "Talking Flower",
+  "nav": { "features": "Features", "what": "What is it", "how": "How to", "why": "Why", "faq": "FAQ" },
+  "hero": {
+    "h1": "Talking Flower Web",
+    "lead": "A cheerful little flower that lives in your browser tab. It chit-chats on its own, announces the time every hour, and calls out the reminders you set. Free, no install, works on desktop and mobile.",
+    "wake": "🔊 Wake the flower",
+    "wakeNote": "Browsers need one tap before a page can play sound.",
+    "pokeHint": "Poke the flower and it talks back."
+  },
+  "features": {
+    "heading": "Features",
+    "items": [
+      { "icon": "🗣️", "title": "Auto chatter", "body": "Hundreds of original lines in English, Chinese and Japanese. The flower speaks up every few minutes so your tab never feels lonely — pick chatty, normal or quiet." },
+      { "icon": "⏰", "title": "Hourly chime", "body": "A friendly voice announces the time at the top of every hour. Toggle it on or off any time." },
+      { "icon": "🔔", "title": "Spoken reminders", "body": "Add a time and a note; the flower reads it out loud and pops a desktop notification. Repeat daily or just once." },
+      { "icon": "✍️", "title": "Your own lines", "body": "Write your own things for the flower to say. They mix into the random pool, kept separately per language." },
+      { "icon": "🎀", "title": "Cute voices", "body": "Auto-picks the best-sounding voice on your device, with Cute / Normal / Calm presets plus speed and pitch sliders." },
+      { "icon": "🌙", "title": "Night rest", "body": "Set wake and sleep hours. The flower stays quiet at night — reminders still fire — and greets you good morning and good night." }
+    ]
+  },
+  "what": {
+    "heading": "What is a talking flower?",
+    "body": [
+      "A talking flower is a playful desktop companion: a little animated flower that speaks out loud on its own. This web version is inspired by the beloved chatty-flower toy, rebuilt to run entirely in your browser — no gadget, no batteries, no account.",
+      "Everything happens on your device. The flower uses your browser's built-in text-to-speech to talk, a local clock for the hourly chime, and your own list for reminders. There is no microphone, no server, and nothing is uploaded.",
+      "It is equal parts toy and tiny utility: cute enough to keep on a second screen, useful enough to nudge you through the day."
+    ]
+  },
+  "how": {
+    "heading": "How to use it",
+    "steps": [
+      { "title": "Wake the flower", "body": "Tap “Wake the flower” once. That unlocks sound — browsers require a click — and the flower says hello." },
+      { "title": "Choose a voice", "body": "Open Settings, pick a voice (or leave it on Auto), and try the Cute preset for a higher, sweeter tone." },
+      { "title": "Turn on what you want", "body": "Switch on the hourly chime and auto-chatter, and set your wake / sleep hours to enable night rest." },
+      { "title": "Add reminders & lines", "body": "Add a reminder like “09:30 stand up” and write a few lines of your own. Keep the tab open and the flower does the rest." }
+    ]
+  },
+  "why": {
+    "heading": "Why keep it open",
+    "items": [
+      { "title": "Company while you work", "body": "Gentle, random chit-chat makes a quiet room or a long focus session feel less lonely." },
+      { "title": "A time cue you don't watch", "body": "The hourly chime keeps you loosely aware of time without staring at a clock." },
+      { "title": "Reminders that reach you", "body": "Spoken aloud plus a notification is much harder to miss than a silent badge." },
+      { "title": "Simple and private", "body": "No install, no login, nothing leaves your browser. Just open a tab." }
+    ]
+  },
+  "faq": {
+    "heading": "FAQ",
+    "items": [
+      { "q": "Is it free?", "a": "Yes, completely free. It runs in your browser using built-in speech, with no account and no payment." },
+      { "q": "Does it need the internet?", "a": "Only to load the page. After that the flower, clock and reminders all work offline; the voice is your device's built-in text-to-speech." },
+      { "q": "Why is there no sound?", "a": "Browsers block audio until you interact with the page. Tap “Wake the flower” once, and check that your system and the tab are not muted." },
+      { "q": "Do reminders work if I close the tab?", "a": "No — the web version needs the tab open. For always-on background reminders, use the browser extension version." },
+      { "q": "Can I change the voice or make it cuter?", "a": "Yes. Settings lets you pick any voice your device offers, with Cute / Normal / Calm presets and speed and pitch sliders. Microsoft Edge offers especially natural free voices." },
+      { "q": "Is this an official Nintendo product?", "a": "No. It is a fan-made web toy, not affiliated with or endorsed by Nintendo. All voice lines are original." },
+      { "q": "Which languages does it support?", "a": "English, Chinese and Japanese — both the interface and the flower's spoken lines." }
+    ]
+  },
+  "footer": {
+    "tagline": "Made with 🌼 for chatty desktops.",
+    "disclaimer": "Fan-made web toy. Not affiliated with, sponsored by, or endorsed by Nintendo. All voice lines are original; speech uses your browser's built-in TTS."
+  },
+  "ui": {
+    "settingsTitle": "Settings",
+    "power": "Flower on/off (mute)",
+    "browserVoice": "Voice",
+    "autoVoice": "Auto (best-sounding)",
+    "rate": "Rate",
+    "pitch": "Pitch",
+    "presetLabel": "Presets",
+    "presetCute": "🎀 Cute",
+    "presetNormal": "Normal",
+    "presetCalm": "Calm",
+    "testVoice": "Preview",
+    "autoChatter": "Auto chatter",
+    "autoChatterDesc": "The flower says something on its own once in a while",
+    "chatterFreq": "Chatter frequency",
+    "freqChatty": "Chatty (2–6 min)",
+    "freqNormal": "Normal (8–20 min)",
+    "freqQuiet": "Quiet (25–45 min)",
+    "hourlyChime": "Hourly chime",
+    "hourlyChimeDesc": "Announces the time at the top of every hour",
+    "quietNight": "Night rest",
+    "quietNightDesc": "No chatter or chime during sleep hours (reminders still fire)",
+    "wakeTime": "Wake",
+    "sleepTime": "Sleep",
+    "customTitle": "Custom lines",
+    "customDesc": "Add your own chatter lines — they get mixed into the random pool.",
+    "useBuiltin": "Also use built-in lines",
+    "useBuiltinDesc": "Turn off to make the flower say only your lines",
+    "linePlaceholder": "A line for the flower to say…",
+    "addLine": "Add",
+    "customEmpty": "No custom lines yet — add one!",
+    "plansTitle": "Reminders",
+    "plansDesc": "The flower reads it aloud and shows a notification. Keep this tab open; use the extension for background reminders.",
+    "planPlaceholder": "e.g. meeting / drink water",
+    "repeatDaily": "Daily",
+    "repeatOnce": "Once",
+    "addPlan": "Add",
+    "plansEmpty": "No reminders yet — add one!",
+    "recommend": "⭐"
+  }
+}

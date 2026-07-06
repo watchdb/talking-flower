@@ -1,0 +1,12 @@
+{
+  "name": "talking-flower-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "闲聊花网页版 —— 三语 SEO 工具站(静态生成,部署 Cloudflare Pages)",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs && npx --yes serve dist",
+    "deploy": "node build.mjs && npx --yes wrangler pages deploy dist --project-name talking-flower"
+  }
+}

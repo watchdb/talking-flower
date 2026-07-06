@@ -20,14 +20,16 @@
 | **在线语音引擎**(ElevenLabs,可爱音色,填自己的 Key) | ✅ | ✅ (经 offscreen) |
 | 后台常驻(不用开着页面) | ❌ 需保持标签页打开 | ✅ `chrome.alarms` |
 
-## 网页版使用
+## 网页版 = 三语 SEO 工具站(部署 Cloudflare Pages)
 
-纯静态、零依赖、零构建:
+网页版是一个**标准工具站**:header / hero(工具首屏可用)/ features / what-is / how-to / why / faq / footer,
+三语(en 在根 `/`、zh 在 `/zh`、ja 在 `/ja`)各生成一个预渲染 HTML,利于 SEO。
+用一个**零依赖的 Node 脚本**把 `content/*.json` 生成到 `web/dist/`,纯静态,丢到 CF Pages 即可。
 
 ```bash
-# 直接双击打开 web/index.html 即可
-# 或起个本地服务(通知权限在 http(s) 下更可靠):
-npx serve web
+cd web
+node build.mjs        # 生成 dist/(en、zh、ja + sitemap.xml + robots.txt)
+npm run preview       # 构建并本地起服务预览(npx serve dist)
 ```
 
 打开后点「🔊 唤醒小花」(浏览器要求先有一次用户点击才允许发声),之后:
@@ -39,9 +41,34 @@ npx serve web
 - **自定义台词**:在「自定义文案」里加自己的句子,会和内置台词一起被随机说出来(按当前语言分开存);可关掉「同时使用内置台词」,让小花只说你写的
 - **语音**:见下方「语音怎么变好听 / 变可爱」
 
-注意:浏览器会对**后台标签页**的定时器节流(约 1 次/分钟),分钟级提醒不受影响,但页面关掉就全停了——想要常驻请用插件版。
+> 网页版当前**只用免费的浏览器语音**(ElevenLabs 在线引擎先不展示,代码保留在插件版)。
+> 浏览器会对**后台标签页**的定时器节流(约 1 次/分钟),分钟级提醒不受影响,但页面关掉就全停了——想要常驻请用插件版。
 
-想部署上线的话,把 `web/` 目录扔到任意静态托管(Cloudflare Pages、GitHub Pages、Vercel)即可。
+### SEO 已内建
+
+- `<title>` / `description` / `canonical`(无尾斜杠)/ 三语 `hreflang` 双向 + `x-default`
+- Open Graph + Twitter Card + `og-image`(1200×630)
+- JSON-LD:`WebApplication` / `FAQPage` / `BreadcrumbList`
+- 每页仅 1 个 `<h1>`,多个 `<h2>` 覆盖长尾;**不输出** `keywords` meta
+- 动态 `sitemap.xml`(含三语 alternates)+ `robots.txt`
+
+### 改文案 / 加语言
+
+- 站点文案全在 `web/content/{en,zh,ja}.json`(SEO 段落、FAQ、工具界面标签都在里面),改完 `node build.mjs`
+- 站点根 URL、语言列表在 `web/build.mjs` 顶部的 `SITE_URL` / `LOCALES`;换自定义域名只改 `SITE_URL` 一行
+
+### 部署到 Cloudflare Pages
+
+```bash
+# 方式一:本地直接上传(需已登录 wrangler)
+cd web && npm run deploy          # = node build.mjs && wrangler pages deploy dist --project-name talking-flower
+
+# 方式二:CF Pages 连 Git 仓库自动构建
+#   Build command:      cd web && node build.mjs
+#   Build output dir:   web/dist
+```
+
+当前配置的站点根:`https://talking-flower.pages.dev`(en `/`、zh `/zh`、ja `/ja`)。
 
 ## 浏览器插件(Chrome / Edge,Manifest V3)
 
@@ -65,6 +92,7 @@ npx serve web
 2. **用「🎀 可爱」预设**(免费)
    - 语音区有 `🎀 可爱 / 标准 / 沉稳` 三个预设,可爱预设会把音调调高、语速略快,配合女声音色更萌;也可以自己拖语速 / 音调滑块微调。
 3. **接在线引擎 ElevenLabs**(音色最可爱最自然,需要自己的免费 Key)
+   - ⚠️ 当前**仅插件版**展示此选项(网页版为保持简单先隐藏,代码仍在)。
    - 语音引擎选「在线 · ElevenLabs」,填两项:
      - **API Key**:在 [elevenlabs.io](https://elevenlabs.io) 免费注册后在账户里拿(有免费额度)。
      - **Voice ID**:在 ElevenLabs 的 Voice Library 里挑一个可爱音色,复制它的 Voice ID 填进来(留空则用一个占位默认音色)。
@@ -75,22 +103,28 @@ npx serve web
 
 ```
 .
-├── web/                  # 网页版(纯静态)
-│   ├── index.html
-│   ├── style.css
-│   ├── app.js            # 主逻辑:TTS(浏览器+ElevenLabs)、优选音色、自定义台词、定时、计划、i18n
-│   └── lines.js          # 台词库(三语,200+ 条)
-└── extension/            # Chrome 插件(MV3)
+├── web/                    # 网页版 = 三语 SEO 工具站(静态生成)
+│   ├── build.mjs           # 零依赖生成器:content → dist/
+│   ├── package.json        # build / preview / deploy 脚本
+│   ├── content/            # 站点文案(SEO 段落、FAQ、工具界面标签)
+│   │   ├── en.json  zh.json  ja.json
+│   ├── assets/             # 直接拷进 dist 的静态资源
+│   │   ├── app.js          # 工具逻辑:浏览器 TTS、优选音色、自定义台词、定时、计划
+│   │   ├── style.css       # 站点 + 工具样式(含深色模式)
+│   │   ├── lines.js        # 台词库(三语,200+ 条)
+│   │   ├── favicon.svg  og-image.png
+│   └── dist/               # 构建产物(gitignore;部署这个目录)
+└── extension/              # Chrome 插件(MV3)
     ├── manifest.json
-    ├── background.js     # service worker:alarms 编排与触发、引擎分发
-    ├── offscreen.html/js # 离屏文档:播放在线 TTS 音频(SW 不能直接播音频)
-    ├── popup.html/css/js # 设置面板
-    ├── lines.js          # ⚠️ 与 web/lines.js 是同一份文件的拷贝
-    └── icons/            # 16/32/48/128 图标
+    ├── background.js       # service worker:alarms 编排与触发、引擎分发
+    ├── offscreen.html/js   # 离屏文档:播放在线 TTS 音频(SW 不能直接播音频)
+    ├── popup.html/css/js   # 设置面板
+    ├── lines.js            # ⚠️ 与 web/assets/lines.js 是同一份文件的拷贝
+    └── icons/              # 16/32/48/128 图标
 ```
 
-> **改台词注意**:`web/lines.js` 和 `extension/lines.js` 内容必须一致,改完一边记得
-> `cp web/lines.js extension/lines.js`。
+> **改台词注意**:`web/assets/lines.js` 和 `extension/lines.js` 内容必须一致,改完一边记得
+> `cp web/assets/lines.js extension/lines.js`。
 
 ## 已知限制
 
