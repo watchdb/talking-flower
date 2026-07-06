@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>闲聊花 Web · Talking Flower</title>
+  <meta name="description" content="网页版闲聊花:一朵会自动闲聊的小花,支持整点报时和自定义计划提醒。粉丝自制,台词原创。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌼%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🌼 <span data-i18n="title">闲聊花 Web</span></h1>
+    <p class="subtitle" data-i18n="subtitle">一朵话很多的小花:自动闲聊 · 整点报时 · 计划提醒</p>
+  </header>
+
+  <main>
+    <!-- 舞台:小花本体 -->
+    <section class="stage card" id="stage">
+      <div class="bubble hidden" id="bubble" aria-live="polite"></div>
+
+      <button class="flower-wrap" id="flower" aria-label="戳一下小花" title="戳一下我!">
+        <svg viewBox="0 0 240 300" width="240" height="300" role="img" aria-hidden="true">
+          <g class="sway">
+            <!-- 茎和叶 -->
+            <path d="M120 160 C 118 200, 122 230, 120 262" stroke="#4caf50" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M120 205 C 95 195, 82 178, 78 160 C 100 162, 116 178, 120 196 Z" fill="#66bb6a"/>
+            <path d="M121 228 C 146 220, 160 204, 165 186 C 142 188, 126 202, 121 220 Z" fill="#57a05b"/>
+            <!-- 花瓣 -->
+            <g class="petals">
+              <ellipse cx="120" cy="52"  rx="30" ry="40" fill="#ffd54f"/>
+              <ellipse cx="178" cy="94"  rx="30" ry="40" fill="#ffd54f" transform="rotate(72 178 94)"/>
+              <ellipse cx="156" cy="162" rx="30" ry="40" fill="#ffca28" transform="rotate(144 156 162)"/>
+              <ellipse cx="84"  cy="162" rx="30" ry="40" fill="#ffca28" transform="rotate(216 84 162)"/>
+              <ellipse cx="62"  cy="94"  rx="30" ry="40" fill="#ffd54f" transform="rotate(288 62 94)"/>
+            </g>
+            <!-- 脸 -->
+            <circle cx="120" cy="110" r="52" fill="#fff8e1" stroke="#f5c542" stroke-width="5"/>
+            <g class="face">
+              <g class="eyes">
+                <ellipse class="eye" cx="100" cy="102" rx="7" ry="11" fill="#3b2f2f"/>
+                <ellipse class="eye" cx="140" cy="102" rx="7" ry="11" fill="#3b2f2f"/>
+              </g>
+              <circle cx="88"  cy="122" r="7" fill="#ffab91" opacity=".7"/>
+              <circle cx="152" cy="122" r="7" fill="#ffab91" opacity=".7"/>
+              <path class="mouth" d="M105 128 Q 120 142 135 128" stroke="#3b2f2f" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <ellipse class="mouth-open" cx="120" cy="132" rx="12" ry="10" fill="#3b2f2f"/>
+            </g>
+          </g>
+          <!-- 花盆 -->
+          <path d="M78 262 L 162 262 L 152 298 L 88 298 Z" fill="#c96f4a"/>
+          <rect x="70" y="254" width="100" height="14" rx="7" fill="#b35d3b"/>
+        </svg>
+      </button>
+
+      <p class="stage-hint" data-i18n="pokeHint">戳一下小花,它会回应你</p>
+
+      <div class="stage-overlay" id="startOverlay">
+        <button class="btn btn-primary btn-big" id="startBtn" data-i18n="startBtn">🔊 唤醒小花</button>
+        <p class="overlay-note" data-i18n="startNote">浏览器需要你点一下,才允许网页发出声音</p>
+      </div>
+    </section>
+
+    <!-- 设置 -->
+    <section class="card">
+      <h2 data-i18n="settingsTitle">设置</h2>
+
+      <div class="row">
+        <label class="switch-label" data-i18n="power">小花开关(静音)</label>
+        <label class="switch"><input type="checkbox" id="optEnabled" checked /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <label for="optLang" data-i18n="language">语言</label>
+        <select id="optLang">
+          <option value="zh">中文</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label for="optVoice" data-i18n="voice">声音</label>
+        <select id="optVoice"></select>
+      </div>
+
+      <div class="row sliders">
+        <label data-i18n="rate">语速</label>
+        <input type="range" id="optRate" min="0.6" max="1.6" step="0.05" value="1.05" />
+        <label data-i18n="pitch">音调</label>
+        <input type="range" id="optPitch" min="0.6" max="2" step="0.05" value="1.35" />
+        <button class="btn" id="testVoiceBtn" data-i18n="testVoice">试听</button>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div>
+          <label class="switch-label" data-i18n="autoChatter">自动闲聊</label>
+          <p class="row-desc" data-i18n="autoChatterDesc">小花会隔一会儿自己说点什么</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="optChatter" checked /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <label for="optFreq" data-i18n="chatterFreq">闲聊频率</label>
+        <select id="optFreq">
+          <option value="chatty" data-i18n="freqChatty">话痨(2–6 分钟)</option>
+          <option value="normal" selected data-i18n="freqNormal">正常(8–20 分钟)</option>
+          <option value="quiet" data-i18n="freqQuiet">安静(25–45 分钟)</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="switch-label" data-i18n="hourlyChime">整点报时</label>
+          <p class="row-desc" data-i18n="hourlyChimeDesc">每到整点,小花会报一次时间</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="optHourly" checked /><span class="slider"></span></label>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="switch-label" data-i18n="quietNight">夜间休息</label>
+          <p class="row-desc" data-i18n="quietNightDesc">睡觉时间内不闲聊、不报时(计划提醒仍然生效)</p>
+        </div>
+        <label class="switch"><input type="checkbox" id="optNight" checked /><span class="slider"></span></label>
+      </div>
+
+      <div class="row times">
+        <label data-i18n="wakeTime">起床</label>
+        <input type="time" id="optWake" value="07:30" />
+        <label data-i18n="sleepTime">睡觉</label>
+        <input type="time" id="optSleep" value="22:30" />
+      </div>
+    </section>
+
+    <!-- 计划提醒 -->
+    <section class="card">
+      <h2 data-i18n="plansTitle">计划提醒</h2>
+      <p class="row-desc" data-i18n="plansDesc">到点时小花会大声念出来,并弹出通知(需要保持本页面打开;后台常驻请用浏览器插件版)</p>
+
+      <form id="planForm" class="plan-form">
+        <input type="time" id="planTime" required />
+        <input type="text" id="planText" maxlength="60" required data-i18n-placeholder="planPlaceholder" placeholder="例如:去开会 / 喝水 / 收快递" />
+        <select id="planRepeat">
+          <option value="daily" data-i18n="repeatDaily">每天</option>
+          <option value="once" data-i18n="repeatOnce">仅一次</option>
+        </select>
+        <button type="submit" class="btn btn-primary" data-i18n="addPlan">添加</button>
+      </form>
+
+      <ul id="planList" class="plan-list"></ul>
+      <p class="empty-note hidden" id="planEmpty" data-i18n="plansEmpty">还没有计划,添加一条试试吧</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p data-i18n="disclaimer">粉丝自制网页玩具,与任天堂无关;台词均为原创,语音来自浏览器自带 TTS。</p>
+  </footer>
+
+  <script src="lines.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

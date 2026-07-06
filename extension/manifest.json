@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "闲聊花 Talking Flower",
+  "version": "1.0.0",
+  "description": "一朵常驻浏览器的闲聊小花:自动闲聊、整点报时、自定义计划提醒。粉丝自制,台词原创,与任天堂无关。",
+  "permissions": ["alarms", "storage", "notifications", "tts"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "闲聊花",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
